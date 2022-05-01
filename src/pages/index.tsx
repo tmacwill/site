@@ -46,24 +46,22 @@ const Menu: React.FC<{ gearClasses: string }> = ({ gearClasses }) => {
   };
 
   return (
-    <div className="absolute bottom-0 right-0 p-4">
-      <div className="text-3xl">
-        <animated.div style={spring}>
-          <a href="#" className="block pb-4" onClick={(e) => showPage("baseball", e)}>
-            ⚾️
-          </a>
-          <a href="#" className="block pb-4" onClick={(e) => showPage("retro", e)}>
-            📺
-          </a>
-          <a href="#" className="block pb-4" onClick={(e) => showPage("gradient", e)}>
-            ⚡️
-          </a>
-          <a href="#" className="block pb-4" onClick={(e) => showPage("minimal", e)}>
-            💭
-          </a>
-        </animated.div>
-      </div>
-      <a href="#" onClick={(e) => onGearClick(e)}>
+    <div className="absolute bottom-0 right-0 p-4 text-2xl md:text-3xl">
+      <animated.div style={spring}>
+        <a href="#" className="block pb-4" onClick={(e) => showPage("baseball", e)}>
+          ⚾️
+        </a>
+        <a href="#" className="block pb-4" onClick={(e) => showPage("retro", e)}>
+          📺
+        </a>
+        <a href="#" className="block pb-4" onClick={(e) => showPage("gradient", e)}>
+          ⚡️
+        </a>
+        <a href="#" className="block pb-4" onClick={(e) => showPage("minimal", e)}>
+          💭
+        </a>
+      </animated.div>
+      <a href="#" className="block" onClick={(e) => onGearClick(e)}>
         <FontAwesomeIcon icon={faGear} className={gearClasses} />
       </a>
     </div>
@@ -75,9 +73,9 @@ const Index = () => {
     <>
       <div className="bg-gray-100 minimal page">
         <div className="flex items-center justify-center text-center w-screen h-screen">
-          <Menu gearClasses="text-2xl text-gray-400" />
+          <Menu gearClasses="text-gray-400" />
           <h1
-            className="text-2xl font-thin text-gray-400 border-t border-gray-300 pt-5 px-12"
+            className="text-xl md:text-2xl font-thin text-gray-400 border-t border-gray-300 pt-4 px-8 md:pt-5 md:px-12"
             style={{ letterSpacing: "0.25em" }}
           >
             <div>TOMMY MACWILLIAM</div>
@@ -87,8 +85,8 @@ const Index = () => {
       </div>
       <div className="gradient-background gradient hidden page">
         <div className="flex flex-col justify-center w-screen h-screen">
-          <Menu gearClasses="text-2xl text-slate-700" />
-          <h1 className="text-6xl md:text-9xl roc font-bold px-12 text-slate-700">
+          <Menu gearClasses="text-slate-700" />
+          <h1 className="text-5xl md:text-9xl roc font-bold px-6 md:px-12 text-slate-700">
             <div>Tommy ✨</div>
             <div className="pt-6">MacWilliam</div>
             <div className="text-4xl">
@@ -98,9 +96,9 @@ const Index = () => {
         </div>
       </div>
       <div className="bg-amber-900 retro hidden page">
-        <Menu gearClasses="text-2xl text-blue-100" />
+        <Menu gearClasses="text-blue-100" />
         <div className="flex flex-col items-center justify-center text-center w-screen h-screen">
-          <h1 className="text-9xl font-thin text-zinc-50 arbotek text-left">
+          <h1 className="text-7xl md:text-9xl font-thin text-zinc-50 arbotek text-left">
             <div>
               <span className="text-orange-600 pr-1">T</span>
               <span className="text-red-600 pr-1">O</span>
@@ -123,7 +121,7 @@ const Index = () => {
               <span className="text-orange-600 pr-4">M</span>
             </div>
           </h1>
-          <div className="pt-8 text-5xl">
+          <div className="pt-8 text-3xl md:text-5xl">
             <a href="https://twitter.com/tmacwill" target="_blank" className="text-emerald-600">
               <FontAwesomeIcon icon={faTwitter} className="pr-6" />
             </a>
@@ -141,8 +139,8 @@ const Index = () => {
       </div>
       <div className="bg-blue-900 baseball hidden page">
         <div className="flex items-center justify-center text-center w-screen h-screen">
-          <Menu gearClasses="text-2xl text-white" />
-          <h1 className="text-8xl md:text-9xl text-white fenway">
+          <Menu gearClasses="text-white" />
+          <h1 className="text-7xl md:text-9xl text-white fenway">
             <div style={{ textShadow: "3px 3px 2px #dc2626" }}>Tommy MacWilliam</div>
             <div className="text-4xl pt-8">
               <Links />
