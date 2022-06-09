@@ -1,21 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useSpring, animated } from "react-spring";
-import { StaticImage } from "gatsby-plugin-image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGear } from "@fortawesome/free-solid-svg-icons";
 import { faGithub, faLinkedinIn, faTwitter } from "@fortawesome/free-brands-svg-icons";
-
-const showPage = (page: string, e?: any) => {
-  if (e) {
-    e.preventDefault();
-  }
-
-  document.querySelectorAll(".page").forEach((page) => {
-    page.classList.add("hidden");
-  });
-
-  document.querySelector(`.${page}`).classList.remove("hidden");
-};
 
 const Links = () => (
   <div className="pt-4">
@@ -45,19 +32,30 @@ const Menu: React.FC<{ gearClasses: string }> = ({ gearClasses }) => {
     setShown((e) => !e);
   };
 
+  const onLinkClick = (e: any, page: string) => {
+    e.preventDefault();
+    setShown(false);
+
+    document.querySelectorAll(".page").forEach((page) => {
+      page.classList.add("hidden");
+    });
+
+    document.querySelector(`.${page}`).classList.remove("hidden");
+  };
+
   return (
     <div className="absolute bottom-0 right-0 p-4 text-2xl md:text-3xl">
       <animated.div style={spring}>
-        <a href="#" className="block pb-4" onClick={(e) => showPage("baseball", e)}>
+        <a href="#" className="block pb-4" onClick={(e) => onLinkClick(e, "baseball")}>
           ⚾️
         </a>
-        <a href="#" className="block pb-4" onClick={(e) => showPage("retro", e)}>
+        <a href="#" className="block pb-4" onClick={(e) => onLinkClick(e, "retro")}>
           📺
         </a>
-        <a href="#" className="block pb-4" onClick={(e) => showPage("gradient", e)}>
+        <a href="#" className="block pb-4" onClick={(e) => onLinkClick(e, "gradient")}>
           ⚡️
         </a>
-        <a href="#" className="block pb-4" onClick={(e) => showPage("minimal", e)}>
+        <a href="#" className="block pb-4" onClick={(e) => onLinkClick(e, "minimal")}>
           💭
         </a>
       </animated.div>
