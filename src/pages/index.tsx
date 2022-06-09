@@ -1,21 +1,55 @@
 import React, { useState } from "react";
+import classNames from "classnames";
+
+import { config, IconProp } from "@fortawesome/fontawesome-svg-core";
+import "@fortawesome/fontawesome-svg-core/styles.css";
+config.autoAddCss = false;
+
 import { useSpring, animated } from "react-spring";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGear } from "@fortawesome/free-solid-svg-icons";
 import { faGithub, faLinkedinIn, faTwitter } from "@fortawesome/free-brands-svg-icons";
 
-const Links = () => (
+const Links: React.FC<{ large?: boolean }> = ({ large }) => (
   <div className="pt-4">
-    <a href="https://twitter.com/tmacwill" target="_blank">
-      <FontAwesomeIcon icon={faTwitter} className="pr-6" />
+    <a
+      href="https://twitter.com/tmacwill"
+      target="_blank"
+      className={classNames("pr-6", {
+        "text-5xl": large,
+        "text-2xl": !large,
+      })}
+    >
+      <FontAwesomeIcon icon={faTwitter} />
     </a>
-    <a href="https://linkedin.com/in/tmacwill" target="_blank">
-      <FontAwesomeIcon icon={faLinkedinIn} className="pr-6" />
+    <a
+      href="https://linkedin.com/in/tmacwill"
+      target="_blank"
+      className={classNames("pr-6", {
+        "text-5xl": large,
+        "text-2xl": !large,
+      })}
+    >
+      <FontAwesomeIcon icon={faLinkedinIn} />
     </a>
-    <a href="https://github.com/tmacwill" target="_blank">
-      <FontAwesomeIcon icon={faGithub} className="pr-6" />
+    <a
+      href="https://github.com/tmacwill"
+      target="_blank"
+      className={classNames("pr-6", {
+        "text-5xl": large,
+        "text-2xl": !large,
+      })}
+    >
+      <FontAwesomeIcon icon={faGithub} />
     </a>
-    <a href="https://unicodesnowmanforyou.com" target="_blank">
+    <a
+      href="https://unicodesnowmanforyou.com"
+      target="_blank"
+      className={classNames({
+        "text-5xl": large,
+        "text-2xl": !large,
+      })}
+    >
       ☃
     </a>
   </div>
@@ -70,8 +104,8 @@ const Index = () => {
   return (
     <>
       <div className="bg-gray-100 minimal page">
+        <Menu gearClasses="text-gray-400" />
         <div className="flex items-center justify-center text-center w-screen h-screen">
-          <Menu gearClasses="text-gray-400" />
           <h1
             className="text-xl md:text-2xl font-thin text-gray-400 border-t border-gray-300 pt-4 px-8 md:pt-5 md:px-12"
             style={{ letterSpacing: "0.25em" }}
@@ -82,15 +116,15 @@ const Index = () => {
         </div>
       </div>
       <div className="gradient-background gradient hidden page">
-        <div className="flex flex-col justify-center w-screen h-screen">
-          <Menu gearClasses="text-slate-700" />
-          <h1 className="text-5xl md:text-9xl roc font-bold px-6 md:px-12 text-slate-700">
-            <div>Tommy ✨</div>
-            <div className="pt-6">MacWilliam</div>
-            <div className="text-4xl">
-              <Links />
-            </div>
-          </h1>
+        <Menu gearClasses="text-slate-700" />
+        <div className="flex items-center w-screen h-screen">
+          <div className="px-6 md:px-12 text-slate-700">
+            <h1 className="text-5xl md:text-9xl roc font-bold">
+              <div>Tommy ✨</div>
+              <div className="pt-6">MacWilliam</div>
+            </h1>
+            <Links large={true} />
+          </div>
         </div>
       </div>
       <div className="bg-amber-900 retro hidden page">
@@ -119,31 +153,37 @@ const Index = () => {
               <span className="text-orange-600 pr-4">M</span>
             </div>
           </h1>
-          <div className="pt-8 text-3xl md:text-5xl">
+          <div className="pt-8">
             <a href="https://twitter.com/tmacwill" target="_blank" className="text-emerald-600">
-              <FontAwesomeIcon icon={faTwitter} className="pr-6" />
+              <FontAwesomeIcon icon={faTwitter} className="pr-6 text-3xl md:text-5xl" />
             </a>
             <a href="https://linkedin.com/in/tmacwill" target="_blank" className="text-red-600">
-              <FontAwesomeIcon icon={faLinkedinIn} className="pr-6" />
+              <FontAwesomeIcon icon={faLinkedinIn} className="pr-6 text-3xl md:text-5xl" />
             </a>
             <a href="https://github.com/tmacwill" target="_blank" className="text-blue-100">
-              <FontAwesomeIcon icon={faGithub} className="pr-6" />
+              <FontAwesomeIcon icon={faGithub} className="pr-6 text-3xl md:text-5xl" />
             </a>
-            <a href="https://unicodesnowmanforyou.com" target="_blank" className="text-cyan-600">
+            <a
+              href="https://unicodesnowmanforyou.com"
+              target="_blank"
+              className="text-cyan-600 text-3xl md:text-5xl"
+            >
               ☃
             </a>
           </div>
         </div>
       </div>
       <div className="bg-blue-900 baseball hidden page">
-        <div className="flex items-center justify-center text-center w-screen h-screen">
-          <Menu gearClasses="text-white" />
-          <h1 className="text-7xl md:text-9xl text-white fenway">
-            <div style={{ textShadow: "3px 3px 2px #dc2626" }}>Tommy MacWilliam</div>
-            <div className="text-4xl pt-8">
-              <Links />
+        <Menu gearClasses="text-white" />
+        <div className="flex items-center justify-center text-center w-screen h-screen text-white">
+          <div>
+            <h1 className="text-7xl md:text-9xl fenway">
+              <div style={{ textShadow: "3px 3px 2px #dc2626" }}>Tommy MacWilliam</div>
+            </h1>
+            <div className="pt-4">
+              <Links large={true} />
             </div>
-          </h1>
+          </div>
         </div>
       </div>
     </>
