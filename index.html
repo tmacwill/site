@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Bangers&family=Orbitron:wght@400;700&family=Oswald:wght@700&family=Share+Tech+Mono&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Bangers&family=Orbitron:wght@400;700&family=Permanent+Marker&family=Sedgwick+Ave+Display&family=Share+Tech+Mono&display=swap"
       rel="stylesheet"
     />
     <style>
@@ -25,19 +25,17 @@
         --mainframe-accent: #008f11;
         --mainframe-glow: #003b00;
 
-        /* Vegas Theme Variables */
-        --vegas-night: #1a0b2e;
-        --vegas-sign-bg: #e6e6e6;
-        --vegas-red: #ff2a2a;
-        --vegas-blue: #00f0ff;
-        --vegas-yellow: #fff700;
-        --vegas-border: #ff0055;
-
         /* Space Theme Variables */
         --space-bg: #0b0d17;
         --space-text: #ffffff;
         --space-accent: #00d2ff;
         --space-glow: rgba(0, 210, 255, 0.5);
+
+        /* Graffiti Theme Variables (Miami Vice Style) */
+        --graffiti-bg: #f4f4f4;
+        --graffiti-pink: #ff00ff;
+        --graffiti-teal: #00ffff;
+        --graffiti-text: #ffffff;
       }
 
       body {
@@ -275,85 +273,6 @@
       }
 
       /* =========================================
-         VEGAS THEME
-         ========================================= */
-      body.theme-vegas {
-        background-color: var(--vegas-night);
-        background-image: radial-gradient(white, rgba(255, 255, 255, 0.2) 2px, transparent 4px),
-          radial-gradient(white, rgba(255, 255, 255, 0.15) 1px, transparent 3px),
-          radial-gradient(white, rgba(255, 255, 255, 0.1) 2px, transparent 4px);
-        background-size:
-          550px 550px,
-          350px 350px,
-          250px 250px;
-        background-position:
-          0 0,
-          40px 60px,
-          130px 270px;
-        font-family: "Oswald", sans-serif;
-      }
-
-      .theme-vegas .burst-container {
-        display: none;
-      }
-
-      /* Use Title Wrapper to create the Sign Shape */
-      .theme-vegas .title-wrapper {
-        background: var(--vegas-sign-bg);
-        padding: 40px 60px;
-        /* Diamond shape approximation with border radius */
-        border-radius: 50% / 15%;
-        border: 4px solid var(--vegas-yellow);
-        box-shadow:
-          0 0 10px var(--vegas-yellow),
-          0 0 20px var(--vegas-yellow),
-          inset 0 0 20px rgba(0, 0, 0, 0.5);
-        position: relative;
-        transform-origin: center;
-        margin-top: 0;
-        animation: vegas-sign-enter 0.8s ease-out forwards;
-      }
-
-      .theme-vegas .title {
-        font-family: "Oswald", sans-serif;
-        font-size: 5rem;
-        color: #d80000; /* Darker red for better contrast on light background */
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        text-shadow:
-          0 0 1px #500,
-          /* sharp edge */ 0 0 5px var(--vegas-red),
-          0 0 15px var(--vegas-red);
-        transform: scale(1);
-        animation: neon-flicker-text 3s infinite alternate;
-        margin: 0;
-      }
-
-      .theme-vegas .social-link {
-        background: transparent;
-        border: 2px solid var(--vegas-blue);
-        color: var(--vegas-blue);
-        border-radius: 50%;
-        box-shadow:
-          0 0 5px var(--vegas-blue),
-          inset 0 0 5px var(--vegas-blue);
-        transition: all 0.2s;
-      }
-
-      .theme-vegas .social-link:hover {
-        background: var(--vegas-blue);
-        color: var(--vegas-night);
-        box-shadow:
-          0 0 15px var(--vegas-blue),
-          0 0 30px var(--vegas-blue);
-        transform: scale(1.1);
-      }
-
-      .theme-vegas .social-link svg {
-        fill: currentColor;
-      }
-
-      /* =========================================
          SPACE THEME
          ========================================= */
       body.theme-space {
@@ -440,6 +359,117 @@
         color: var(--space-bg);
         box-shadow: 0 0 30px var(--space-accent);
         transform: scale(1.1);
+      }
+
+      /* =========================================
+         GRAFFITI THEME
+         ========================================= */
+      body.theme-graffiti {
+        background-color: var(--graffiti-bg);
+        /* Light texture */
+        background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)),
+          url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.3'/%3E%3C/svg%3E");
+        font-family: "Sedgwick Ave Display", cursive;
+        color: var(--graffiti-pink);
+      }
+
+      body.theme-graffiti::after {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at center, transparent 30%, rgba(0, 0, 0, 0.1) 100%);
+        pointer-events: none;
+        z-index: -1;
+      }
+
+      .theme-graffiti .burst-container {
+        display: none;
+      }
+
+      .graffiti-bg {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+      }
+
+      .theme-graffiti .graffiti-bg {
+        display: block;
+      }
+
+      /* Palm tree / Retro shape approximation for background */
+      .graffiti-arrow {
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        border: 4px solid var(--graffiti-teal);
+        opacity: 0.4;
+        transform: rotate(45deg);
+        box-shadow: 0 0 10px var(--graffiti-teal);
+      }
+
+      .theme-graffiti .title-wrapper {
+        background: #000;
+        padding: 30px 50px;
+        transform: rotate(-3deg);
+        border: 4px solid var(--graffiti-teal);
+        box-shadow: 15px 15px 0 var(--graffiti-pink);
+        animation: graffiti-tag 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      }
+
+      .theme-graffiti .title {
+        font-family: "Sedgwick Ave Display", cursive;
+        font-size: 7rem;
+        color: var(--graffiti-pink);
+        text-shadow: 4px 4px 0 var(--graffiti-teal);
+        letter-spacing: 2px;
+      }
+
+      .theme-graffiti .social-link {
+        background: #000;
+        color: var(--graffiti-teal);
+        border: 3px solid var(--graffiti-pink);
+        border-radius: 10px;
+        box-shadow:
+          4px 4px 0 var(--graffiti-pink),
+          0 0 10px rgba(0, 255, 255, 0.3);
+        transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+
+      .theme-graffiti .social-link:hover {
+        background: var(--graffiti-pink);
+        color: #fff;
+        border-color: var(--graffiti-teal);
+        transform: scale(1.1) rotate(-5deg);
+        box-shadow:
+          -4px 4px 0 var(--graffiti-teal),
+          0 0 20px var(--graffiti-pink);
+      }
+
+      @keyframes graffiti-tag {
+        0% {
+          opacity: 0;
+          transform: scale(3) rotate(15deg);
+          filter: blur(10px);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(0.9) rotate(-10deg);
+          filter: blur(0);
+        }
+        70% {
+          transform: scale(1.1) rotate(-1deg);
+        }
+        100% {
+          transform: scale(1) rotate(-3deg);
+        }
       }
 
       /* =========================================
@@ -639,21 +669,25 @@
       }
 
       /* Hover scale effect - preserve the fan-out transform */
+      /* 1. Comic (Top) */
       .theme-switcher:hover .theme-menu .theme-btn:nth-child(1):hover,
       .theme-switcher.open .theme-menu .theme-btn:nth-child(1):hover {
         transform: translate(0, -80px) scale(1.1);
       }
 
+      /* 2. Mainframe (30° from top) */
       .theme-switcher:hover .theme-menu .theme-btn:nth-child(2):hover,
       .theme-switcher.open .theme-menu .theme-btn:nth-child(2):hover {
         transform: translate(-40px, -69px) scale(1.1);
       }
 
+      /* 3. Space (60° from top) */
       .theme-switcher:hover .theme-menu .theme-btn:nth-child(3):hover,
       .theme-switcher.open .theme-menu .theme-btn:nth-child(3):hover {
         transform: translate(-69px, -40px) scale(1.1);
       }
 
+      /* 4. Graffiti (Left) */
       .theme-switcher:hover .theme-menu .theme-btn:nth-child(4):hover,
       .theme-switcher.open .theme-menu .theme-btn:nth-child(4):hover {
         transform: translate(-80px, 0) scale(1.1);
@@ -672,28 +706,28 @@
         pointer-events: auto;
       }
 
-      /* Comic (Top) */
+      /* 1. Comic (Top) */
       .theme-switcher:hover .theme-menu .theme-btn:nth-child(1),
       .theme-switcher.open .theme-menu .theme-btn:nth-child(1) {
         transform: translate(0, -80px) scale(1);
         transition-delay: 0.15s;
       }
 
-      /* Mainframe (60 deg) */
+      /* 2. Mainframe (30° from top) */
       .theme-switcher:hover .theme-menu .theme-btn:nth-child(2),
       .theme-switcher.open .theme-menu .theme-btn:nth-child(2) {
         transform: translate(-40px, -69px) scale(1);
         transition-delay: 0.1s;
       }
 
-      /* Vegas (30 deg) */
+      /* 3. Space (60° from top) */
       .theme-switcher:hover .theme-menu .theme-btn:nth-child(3),
       .theme-switcher.open .theme-menu .theme-btn:nth-child(3) {
         transform: translate(-69px, -40px) scale(1);
         transition-delay: 0.05s;
       }
 
-      /* Space (Left) */
+      /* 4. Graffiti (Left) */
       .theme-switcher:hover .theme-menu .theme-btn:nth-child(4),
       .theme-switcher.open .theme-menu .theme-btn:nth-child(4) {
         transform: translate(-80px, 0) scale(1);
@@ -782,66 +816,6 @@
         }
       }
 
-      /* Vegas Animations */
-      @keyframes neon-flicker {
-        0%,
-        19%,
-        21%,
-        23%,
-        25%,
-        54%,
-        56%,
-        100% {
-          opacity: 1;
-          text-shadow:
-            0 0 5px var(--vegas-blue),
-            0 0 10px var(--vegas-blue);
-        }
-        20%,
-        24%,
-        55% {
-          opacity: 0.5;
-          text-shadow: none;
-        }
-      }
-
-      @keyframes neon-flicker-text {
-        0%,
-        19%,
-        21%,
-        23%,
-        25%,
-        54%,
-        56%,
-        100% {
-          text-shadow:
-            0 0 1px #500,
-            0 0 5px var(--vegas-red),
-            0 0 15px var(--vegas-red);
-        }
-        20%,
-        24%,
-        55% {
-          text-shadow: none;
-          opacity: 0.8;
-        }
-      }
-
-      @keyframes vegas-sign-enter {
-        0% {
-          transform: translateY(-100vh) rotate(-20deg);
-        }
-        60% {
-          transform: translateY(30px) rotate(5deg);
-        }
-        80% {
-          transform: translateY(-10px) rotate(-2deg);
-        }
-        100% {
-          transform: translateY(0) rotate(0deg);
-        }
-      }
-
       /* Space Animations */
       @keyframes space-stars-anim {
         from {
@@ -873,17 +847,6 @@
           width: 350px;
           height: 350px;
         }
-        .theme-vegas .title {
-          font-size: 2.5rem;
-        }
-        .theme-vegas .title-wrapper::before {
-          font-size: 1.5rem;
-          top: -35px;
-        }
-        .theme-vegas .title-wrapper {
-          padding: 20px 30px;
-        }
-
         .theme-mainframe .title {
           font-size: 2.5rem;
         }
@@ -906,6 +869,12 @@
       <div class="stars"></div>
       <div class="stars"></div>
       <div class="stars"></div>
+    </div>
+    <div class="graffiti-bg">
+      <!-- Decorate with some arrows or shapes -->
+      <div class="graffiti-arrow" style="top: 20%; left: 10%; transform: rotate(15deg) scale(2)"></div>
+      <div class="graffiti-arrow" style="top: 70%; right: 15%; transform: rotate(-25deg) scale(1.5)"></div>
+      <div class="graffiti-arrow" style="bottom: 10%; left: 30%; transform: rotate(45deg) scale(1)"></div>
     </div>
     <svg class="circuit-lines" viewBox="0 0 100 100" preserveAspectRatio="none">
       <path class="circuit-path" d="M10,0 L10,30 L40,30" />
@@ -978,8 +947,8 @@
       <div class="theme-menu">
         <button class="theme-btn" data-theme="comic" title="Comic">💥</button>
         <button class="theme-btn" data-theme="mainframe" title="Mainframe">🤖</button>
-        <button class="theme-btn" data-theme="vegas" title="Vegas">🎰</button>
         <button class="theme-btn" data-theme="space" title="Space">🚀</button>
+        <button class="theme-btn" data-theme="graffiti" title="Graffiti">🛹</button>
       </div>
       <button class="theme-trigger" aria-label="Toggle Theme Menu">
         <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
@@ -1072,7 +1041,7 @@
       }
 
       // Randomly pick theme on load
-      const themes = ["comic", "mainframe", "vegas", "space"];
+      const themes = ["comic", "mainframe", "space", "graffiti"];
       const randomTheme = themes[Math.floor(Math.random() * themes.length)];
       setTheme(randomTheme, true);
 
