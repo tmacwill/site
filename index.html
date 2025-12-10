@@ -1,0 +1,935 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tommy MacWilliam</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bangers&family=Graduate&family=Oswald:wght@700&family=Yellowtail&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        /* Comic Theme Variables */
+        --comic-yellow: #f9d71c;
+        --comic-red: #ed1c24;
+        --comic-blue: #0072bc;
+        --comic-black: #000000;
+
+        /* Baseball Theme Variables */
+        --sox-red: #bd3039;
+        --sox-navy: #0c2340;
+        --sox-white: #ffffff;
+
+        /* Vegas Theme Variables */
+        --vegas-night: #1a0b2e;
+        --vegas-sign-bg: #e6e6e6;
+        --vegas-red: #ff2a2a;
+        --vegas-blue: #00f0ff;
+        --vegas-yellow: #fff700;
+        --vegas-border: #ff0055;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        overflow: hidden;
+        transition: background 0.5s ease;
+        opacity: 0;
+        visibility: hidden;
+        transition:
+          background 0.5s ease,
+          opacity 0.3s ease,
+          visibility 0.3s ease;
+      }
+
+      body.fonts-loaded {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      /* =========================================
+         COMIC THEME
+         ========================================= */
+      body.theme-comic {
+        background-color: #f0f0f0;
+        background-image: radial-gradient(#e0e0e0 15%, transparent 16%), radial-gradient(#e0e0e0 15%, transparent 16%);
+        background-size: 20px 20px;
+        background-position:
+          0 0,
+          10px 10px;
+        font-family: "Bangers", cursive;
+      }
+
+      .theme-comic .burst-container {
+        display: block;
+      }
+
+      .theme-comic .title {
+        font-family: "Bangers", cursive;
+        color: var(--comic-yellow);
+        text-shadow:
+          3px 3px 0 var(--comic-black),
+          -1px -1px 0 var(--comic-black),
+          1px -1px 0 var(--comic-black),
+          -1px 1px 0 var(--comic-black),
+          1px 1px 0 var(--comic-black),
+          8px 8px 0 rgba(0, 0, 0, 0.2);
+        transform: rotate(-3deg) scale(0);
+        animation: title-pop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.3s forwards;
+      }
+
+      .theme-comic .social-link {
+        background: white;
+        border: 3px solid var(--comic-black);
+        color: var(--comic-black);
+        box-shadow: 4px 4px 0 var(--comic-black);
+      }
+
+      .theme-comic .social-link:hover {
+        background: var(--comic-yellow);
+        box-shadow: 6px 6px 0 var(--comic-black);
+      }
+
+      /* =========================================
+         BASEBALL THEME
+         ========================================= */
+      body.theme-baseball {
+        background-color: var(--sox-white);
+        background-image: repeating-linear-gradient(
+          90deg,
+          var(--sox-white),
+          var(--sox-white) 39px,
+          var(--sox-navy) 39px,
+          var(--sox-navy) 40px
+        );
+        font-family: "Graduate", serif;
+      }
+
+      .theme-baseball .burst-container {
+        display: none;
+      }
+
+      /* Baseball Seams */
+      .baseball-seams {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        overflow: hidden;
+      }
+
+      .theme-baseball .baseball-seams {
+        display: block;
+        animation: fade-in 1s ease-out;
+      }
+
+      /* Baseball Field Diamond */
+      .baseball-field {
+        display: none;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: -1;
+      }
+
+      .theme-baseball .baseball-field {
+        display: block;
+        animation: zoom-in 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+
+      .baseball-diamond {
+        width: 500px;
+        height: 500px;
+        background-color: #387c2b; /* Grass Green */
+        border: 4px solid rgba(255, 255, 255, 0.8); /* Foul Lines */
+        transform: rotate(45deg);
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* Pitcher's Mound */
+      .baseball-diamond::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80px;
+        height: 80px;
+        background-color: #8b5a2b; /* Dirt */
+        border: 2px solid rgba(255, 255, 255, 0.5);
+        border-radius: 50%;
+        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+      }
+
+      /* Grass Texture (Stripes) */
+      .baseball-diamond::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 20px,
+          rgba(0, 0, 0, 0.05) 20px,
+          rgba(0, 0, 0, 0.05) 40px
+        );
+      }
+
+      .seam {
+        position: absolute;
+        width: 150%;
+        height: 150%;
+        border-radius: 50%;
+        border: 12px dashed var(--sox-red);
+        opacity: 0.3;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .seam-left {
+        transform: translate(-85%, -50%);
+      }
+
+      .seam-right {
+        transform: translate(35%, -50%);
+      }
+
+      .theme-baseball .title {
+        font-family: "Graduate", serif;
+        font-size: 6rem; /* Bigger! */
+        color: var(--sox-red);
+        text-transform: uppercase;
+        letter-spacing: 5px;
+        /* Varsity outline text effect */
+        text-shadow:
+          3px 3px 0 var(--sox-navy),
+          -1px -1px 0 var(--sox-white),
+          /* Inner white stroke illusion */ -3px -3px 0 var(--sox-navy),
+          3px -3px 0 var(--sox-navy),
+          -3px 3px 0 var(--sox-navy),
+          6px 6px 0 rgba(0, 0, 0, 0.2);
+
+        transform: scale(3);
+        opacity: 0;
+        animation: baseball-enter 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s forwards;
+      }
+
+      .theme-baseball .social-link {
+        background: var(--sox-white);
+        border: 3px solid var(--sox-navy);
+        color: var(--sox-navy);
+        border-radius: 8px; /* Slightly rounded square */
+        transform: rotate(45deg); /* Diamond shape */
+        box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.2);
+        margin: 10px; /* Add space for rotation */
+      }
+
+      .theme-baseball .social-link:hover {
+        background: var(--sox-red);
+        color: var(--sox-white);
+        border-color: var(--sox-red);
+        transform: rotate(45deg) scale(1.1); /* Keep rotation on hover */
+        box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.2);
+      }
+
+      .theme-baseball .social-link svg {
+        fill: currentColor;
+        transform: rotate(-45deg); /* Counter-rotate icon */
+      }
+
+      /* =========================================
+         VEGAS THEME
+         ========================================= */
+      body.theme-vegas {
+        background-color: var(--vegas-night);
+        background-image: radial-gradient(white, rgba(255, 255, 255, 0.2) 2px, transparent 4px),
+          radial-gradient(white, rgba(255, 255, 255, 0.15) 1px, transparent 3px),
+          radial-gradient(white, rgba(255, 255, 255, 0.1) 2px, transparent 4px);
+        background-size:
+          550px 550px,
+          350px 350px,
+          250px 250px;
+        background-position:
+          0 0,
+          40px 60px,
+          130px 270px;
+        font-family: "Oswald", sans-serif;
+      }
+
+      .theme-vegas .burst-container {
+        display: none;
+      }
+
+      /* Use Title Wrapper to create the Sign Shape */
+      .theme-vegas .title-wrapper {
+        background: var(--vegas-sign-bg);
+        padding: 40px 60px;
+        /* Diamond shape approximation with border radius */
+        border-radius: 50% / 15%;
+        border: 4px solid var(--vegas-yellow);
+        box-shadow:
+          0 0 10px var(--vegas-yellow),
+          0 0 20px var(--vegas-yellow),
+          inset 0 0 20px rgba(0, 0, 0, 0.5);
+        position: relative;
+        transform-origin: center;
+        margin-top: 0; /* Removed top margin */
+        animation: vegas-sign-enter 0.5s ease-out forwards;
+      }
+
+      /* "Welcome to Fabulous" text - REMOVED */
+      /* .theme-vegas .title-wrapper::before {
+        content: "Welcome to Fabulous";
+        position: absolute;
+        top: -60px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-family: "Yellowtail", cursive;
+        font-size: 2.5rem;
+        color: var(--vegas-blue);
+        text-shadow: 
+            0 0 5px var(--vegas-blue),
+            0 0 10px var(--vegas-blue),
+            2px 2px 0px rgba(0,0,0,0.5);
+        white-space: nowrap;
+        animation: neon-flicker 2s infinite alternate;
+      } */
+
+      /* Star/Diamond shape on top of sign - optional, maybe too complex for simple CSS
+         Let's stick to a clean border */
+
+      .theme-vegas .title {
+        font-family: "Oswald", sans-serif;
+        font-size: 5rem; /* Increased size since top text is gone */
+        color: #d80000; /* Darker red for better contrast on light background */
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        /* Sharper shadow for contrast + glow */
+        text-shadow:
+          0 0 1px #500,
+          /* sharp edge */ 0 0 5px var(--vegas-red),
+          0 0 15px var(--vegas-red);
+        transform: scale(1);
+        animation: neon-flicker-text 3s infinite alternate;
+        margin: 0;
+      }
+
+      .theme-vegas .social-link {
+        background: transparent;
+        border: 2px solid var(--vegas-blue);
+        color: var(--vegas-blue);
+        border-radius: 50%;
+        box-shadow:
+          0 0 5px var(--vegas-blue),
+          inset 0 0 5px var(--vegas-blue);
+        transition: all 0.2s;
+      }
+
+      .theme-vegas .social-link:hover {
+        background: var(--vegas-blue);
+        color: var(--vegas-night);
+        box-shadow:
+          0 0 15px var(--vegas-blue),
+          0 0 30px var(--vegas-blue);
+        transform: scale(1.1);
+      }
+
+      .theme-vegas .social-link svg {
+        fill: currentColor;
+      }
+
+      /* =========================================
+         SHARED / LAYOUT
+         ========================================= */
+      .container {
+        text-align: center;
+        position: relative;
+        z-index: 1;
+        opacity: 1;
+        transition: opacity 0.3s ease;
+      }
+
+      .container.fading-out {
+        opacity: 0;
+      }
+
+      .title-wrapper {
+        display: inline-block;
+        position: relative;
+        z-index: 2;
+        margin-bottom: 20px;
+        /* Default styles reset for other themes */
+        border: none;
+        background: none;
+        box-shadow: none;
+        padding: 0;
+        border-radius: 0;
+      }
+
+      /* Make sure pseudo-element is hidden on other themes */
+      .title-wrapper::before {
+        content: none;
+      }
+
+      .title {
+        font-size: 5rem;
+        margin: 0;
+        white-space: nowrap;
+      }
+
+      .social-links {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        opacity: 0;
+        animation: fade-in 0.5s ease-out 1s forwards;
+      }
+
+      .social-link {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 50px;
+        height: 50px;
+        text-decoration: none;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s,
+          background-color 0.2s,
+          color 0.2s,
+          border-color 0.2s;
+      }
+
+      .social-link svg {
+        width: 24px;
+        height: 24px;
+        fill: currentColor;
+      }
+
+      .burst-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 600px;
+        height: 600px;
+        z-index: -1;
+        filter: drop-shadow(4px 4px 0px var(--comic-black)) drop-shadow(-2px -2px 0px var(--comic-black));
+        transition: opacity 0.3s;
+      }
+
+      .burst-shape {
+        width: 100%;
+        height: 100%;
+        background: var(--comic-red);
+        clip-path: polygon(
+          20% 0%,
+          32% 15%,
+          50% 0%,
+          60% 18%,
+          85% 5%,
+          80% 30%,
+          100% 20%,
+          88% 45%,
+          100% 65%,
+          82% 75%,
+          95% 95%,
+          65% 85%,
+          50% 100%,
+          35% 88%,
+          10% 95%,
+          22% 75%,
+          0% 65%,
+          18% 45%,
+          0% 25%,
+          25% 30%
+        );
+        animation: burst-pop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        transform: scale(0);
+      }
+
+      .theme-switcher {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 100;
+        width: 50px;
+        height: 50px;
+      }
+
+      /* Hit area expansion to prevent menu closing */
+      .theme-switcher:hover::after,
+      .theme-switcher.open::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 140px;
+        height: 140px;
+        border-radius: 100% 0 0 0;
+        z-index: 1; /* Below buttons (z-index 10) but captures hover */
+      }
+
+      .theme-trigger {
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        transition:
+          transform 0.3s ease,
+          background-color 0.2s;
+        z-index: 2;
+        position: relative;
+        color: #333;
+      }
+
+      .theme-trigger:hover {
+        background: white;
+        transform: rotate(90deg);
+        color: black;
+      }
+
+      .theme-switcher.open .theme-trigger {
+        background: #333;
+        color: white;
+        transform: rotate(90deg);
+        box-shadow:
+          0 4px 15px rgba(0, 0, 0, 0.3),
+          inset 0 0 0 2px rgba(255, 255, 255, 0.2);
+      }
+
+      .theme-menu {
+        position: absolute;
+        bottom: 5px; /* Center with trigger */
+        right: 5px;
+        width: 40px;
+        height: 40px;
+        pointer-events: none; /* Let clicks pass through when closed */
+        z-index: 10; /* Ensure menu is above the bridge */
+      }
+
+      .theme-btn {
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        transform: scale(0.5);
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .theme-btn:hover {
+        background: white;
+        z-index: 10;
+      }
+
+      /* Hover scale effect - preserve the fan-out transform */
+      .theme-switcher:hover .theme-menu .theme-btn:nth-child(1):hover,
+      .theme-switcher.open .theme-menu .theme-btn:nth-child(1):hover {
+        transform: translate(0, -80px) scale(1.1);
+      }
+
+      .theme-switcher:hover .theme-menu .theme-btn:nth-child(2):hover,
+      .theme-switcher.open .theme-menu .theme-btn:nth-child(2):hover {
+        transform: translate(-56px, -56px) scale(1.1);
+      }
+
+      .theme-switcher:hover .theme-menu .theme-btn:nth-child(3):hover,
+      .theme-switcher.open .theme-menu .theme-btn:nth-child(3):hover {
+        transform: translate(-80px, 0) scale(1.1);
+      }
+
+      .theme-btn.active {
+        background: white;
+        border-color: #333;
+        box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Fan Out Animation */
+      .theme-switcher:hover .theme-menu .theme-btn,
+      .theme-switcher.open .theme-menu .theme-btn {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      /* Comic (Top) */
+      .theme-switcher:hover .theme-menu .theme-btn:nth-child(1),
+      .theme-switcher.open .theme-menu .theme-btn:nth-child(1) {
+        transform: translate(0, -80px) scale(1);
+        transition-delay: 0.1s;
+      }
+
+      /* Baseball (Diagonal) */
+      .theme-switcher:hover .theme-menu .theme-btn:nth-child(2),
+      .theme-switcher.open .theme-menu .theme-btn:nth-child(2) {
+        transform: translate(-56px, -56px) scale(1);
+        transition-delay: 0.05s;
+      }
+
+      /* Vegas (Left) */
+      .theme-switcher:hover .theme-menu .theme-btn:nth-child(3),
+      .theme-switcher.open .theme-menu .theme-btn:nth-child(3) {
+        transform: translate(-80px, 0) scale(1);
+        transition-delay: 0s;
+      }
+
+      @keyframes zoom-in {
+        from {
+          transform: translate(-50%, -50%) scale(0);
+          opacity: 0;
+        }
+        to {
+          transform: translate(-50%, -50%) scale(1);
+          opacity: 1;
+        }
+      }
+
+      /* Animations */
+      @keyframes burst-pop {
+        0% {
+          transform: scale(0) rotate(0deg);
+        }
+        100% {
+          transform: scale(1) rotate(10deg);
+        }
+      }
+
+      @keyframes title-pop {
+        0% {
+          transform: rotate(-3deg) scale(0);
+        }
+        100% {
+          transform: rotate(-3deg) scale(1);
+        }
+      }
+
+      @keyframes baseball-enter {
+        0% {
+          transform: scale(3);
+          opacity: 0;
+        }
+        50% {
+          transform: scale(0.9);
+          opacity: 1;
+        }
+        75% {
+          transform: scale(1.05);
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      @keyframes fade-in {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Vegas Animations */
+      @keyframes neon-flicker {
+        0%,
+        19%,
+        21%,
+        23%,
+        25%,
+        54%,
+        56%,
+        100% {
+          opacity: 1;
+          text-shadow:
+            0 0 5px var(--vegas-blue),
+            0 0 10px var(--vegas-blue);
+        }
+        20%,
+        24%,
+        55% {
+          opacity: 0.5;
+          text-shadow: none;
+        }
+      }
+
+      @keyframes neon-flicker-text {
+        0%,
+        19%,
+        21%,
+        23%,
+        25%,
+        54%,
+        56%,
+        100% {
+          text-shadow:
+            0 0 1px #500,
+            0 0 5px var(--vegas-red),
+            0 0 15px var(--vegas-red);
+        }
+        20%,
+        24%,
+        55% {
+          text-shadow: none;
+          opacity: 0.8;
+        }
+      }
+
+      @keyframes vegas-sign-enter {
+        from {
+          transform: translateY(-100vh) rotate(-20deg);
+        }
+        to {
+          transform: translateY(0) rotate(0deg);
+        }
+      }
+
+      @media (max-width: 600px) {
+        .title {
+          font-size: 3rem;
+        }
+        .burst-container {
+          width: 350px;
+          height: 350px;
+        }
+        .theme-vegas .title {
+          font-size: 2.5rem;
+        }
+        .theme-vegas .title-wrapper::before {
+          font-size: 1.5rem;
+          top: -35px;
+        }
+        .theme-vegas .title-wrapper {
+          padding: 20px 30px;
+        }
+      }
+    </style>
+  </head>
+  <body class="theme-comic">
+    <div class="burst-container">
+      <div class="burst-shape"></div>
+    </div>
+
+    <!-- Baseball Background Elements -->
+    <div class="baseball-seams">
+      <div class="seam seam-left"></div>
+      <div class="seam seam-right"></div>
+    </div>
+    <div class="baseball-field">
+      <div class="baseball-diamond"></div>
+    </div>
+
+    <div class="container">
+      <div class="title-wrapper">
+        <h1 class="title">Tommy MacWilliam</h1>
+      </div>
+
+      <div class="social-links">
+        <a
+          href="https://www.linkedin.com/in/tmacwill"
+          class="social-link"
+          title="LinkedIn"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <!-- LinkedIn Icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path
+              d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+            />
+          </svg>
+        </a>
+
+        <a
+          href="https://x.com/tmacwill"
+          class="social-link"
+          title="X (Twitter)"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <!-- X (Twitter) Icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path
+              d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+            />
+          </svg>
+        </a>
+
+        <a
+          href="https://github.com/tmacwill"
+          class="social-link"
+          title="GitHub"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <!-- GitHub Icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path
+              d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+            />
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="theme-switcher">
+      <div class="theme-menu">
+        <button class="theme-btn" data-theme="comic" title="Comic">💥</button>
+        <button class="theme-btn" data-theme="baseball" title="Baseball">⚾</button>
+        <button class="theme-btn" data-theme="vegas" title="Vegas">🎰</button>
+      </div>
+      <button class="theme-trigger" aria-label="Toggle Theme Menu">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+          <path
+            d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.58 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"
+          />
+        </svg>
+      </button>
+    </div>
+
+    <script>
+      // Wait for fonts to load before showing content
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(() => {
+          document.body.classList.add("fonts-loaded");
+        });
+      } else {
+        // Fallback for browsers without Font Loading API
+        window.addEventListener("load", () => {
+          setTimeout(() => {
+            document.body.classList.add("fonts-loaded");
+          }, 100);
+        });
+      }
+
+      function setTheme(theme, skipTransition = false) {
+        const container = document.querySelector(".container");
+
+        // Helper to update button states
+        const updateButtons = (activeTheme) => {
+          document.querySelectorAll(".theme-btn").forEach((btn) => {
+            if (btn.dataset.theme === activeTheme) {
+              btn.classList.add("active");
+            } else {
+              btn.classList.remove("active");
+            }
+          });
+        };
+
+        // If it's the initial load or explicit skip, just set it
+        if (skipTransition) {
+          document.body.className = `theme-${theme}`;
+          updateButtons(theme);
+          return;
+        }
+
+        // 1. Fade out content
+        container.classList.add("fading-out");
+
+        // 2. Wait for fade out (300ms matches CSS transition)
+        setTimeout(() => {
+          // Switch theme class
+          document.body.className = `theme-${theme}`;
+          updateButtons(theme);
+
+          // 3. Fade content back in (triggers new CSS animations on children)
+          // Small delay to ensure DOM update and style recalculation
+          setTimeout(() => {
+            container.classList.remove("fading-out");
+          }, 50);
+        }, 300);
+      }
+
+      // Randomly pick theme on load
+      const themes = ["comic", "baseball", "vegas"];
+      const randomTheme = themes[Math.floor(Math.random() * themes.length)];
+      setTheme(randomTheme, true);
+
+      // Event Listeners for Switcher
+      document.querySelectorAll(".theme-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const theme = btn.dataset.theme;
+          // Close menu first
+          document.querySelector(".theme-switcher").classList.remove("open");
+
+          // Don't switch if already active
+          if (document.body.classList.contains(`theme-${theme}`)) return;
+          setTheme(theme);
+        });
+      });
+
+      // Handle mobile tap / click on trigger
+      const switcher = document.querySelector(".theme-switcher");
+      const trigger = document.querySelector(".theme-trigger");
+
+      trigger.addEventListener("click", (e) => {
+        e.stopPropagation();
+        switcher.classList.toggle("open");
+      });
+
+      // Close when clicking outside
+      document.addEventListener("click", (e) => {
+        if (!switcher.contains(e.target)) {
+          switcher.classList.remove("open");
+        }
+      });
+
+      // Parallax Effect
+      document.addEventListener("mousemove", (e) => {
+        const burst = document.querySelector(".burst-container");
+        const titleWrapper = document.querySelector(".title-wrapper");
+
+        const x = (window.innerWidth / 2 - e.pageX) / 50;
+        const y = (window.innerHeight / 2 - e.pageY) / 50;
+
+        if (burst && getComputedStyle(burst).display !== "none") {
+          burst.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+        }
+
+        if (titleWrapper) {
+          // Disable parallax for baseball theme
+          if (document.body.classList.contains("theme-baseball")) {
+            titleWrapper.style.transform = "none";
+          } else {
+            titleWrapper.style.transform = `translate(${x * -0.5}px, ${y * -0.5}px)`;
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
