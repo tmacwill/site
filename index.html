@@ -702,12 +702,33 @@
       }
 
       @media (max-width: 600px) {
+        .container {
+          width: 100%;
+          max-width: 100vw;
+          padding: 0 10px;
+          box-sizing: border-box;
+        }
+        .title-wrapper {
+          max-width: 100%;
+          width: 100%;
+          box-sizing: border-box;
+        }
         .title {
           font-size: 3rem;
         }
         .burst-container {
           width: 350px;
           height: 350px;
+        }
+        .theme-baseball .title {
+          font-size: 2.5rem;
+          letter-spacing: 2px;
+          transform: scale(1) !important;
+          white-space: normal;
+          word-wrap: break-word;
+          max-width: 100%;
+          padding: 0 10px;
+          box-sizing: border-box;
         }
         .theme-vegas .title {
           font-size: 2.5rem;
