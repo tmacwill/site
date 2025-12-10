@@ -294,24 +294,6 @@
         animation: vegas-sign-enter 0.5s ease-out forwards;
       }
 
-      /* "Welcome to Fabulous" text - REMOVED */
-      /* .theme-vegas .title-wrapper::before {
-        content: "Welcome to Fabulous";
-        position: absolute;
-        top: -60px;
-        left: 50%;
-        transform: translateX(-50%);
-        font-family: "Yellowtail", cursive;
-        font-size: 2.5rem;
-        color: var(--vegas-blue);
-        text-shadow: 
-            0 0 5px var(--vegas-blue),
-            0 0 10px var(--vegas-blue),
-            2px 2px 0px rgba(0,0,0,0.5);
-        white-space: nowrap;
-        animation: neon-flicker 2s infinite alternate;
-      } */
-
       /* Star/Diamond shape on top of sign - optional, maybe too complex for simple CSS
          Let's stick to a clean border */
 
@@ -853,7 +835,12 @@
 
         // If it's the initial load or explicit skip, just set it
         if (skipTransition) {
+          // Preserve fonts-loaded class if it exists
+          const hasFontsLoaded = document.body.classList.contains("fonts-loaded");
           document.body.className = `theme-${theme}`;
+          if (hasFontsLoaded) {
+            document.body.classList.add("fonts-loaded");
+          }
           updateButtons(theme);
           return;
         }
@@ -863,15 +850,38 @@
 
         // 2. Wait for fade out (300ms matches CSS transition)
         setTimeout(() => {
-          // Switch theme class
+          // Switch theme class, preserving fonts-loaded class
+          const hasFontsLoaded = document.body.classList.contains("fonts-loaded");
           document.body.className = `theme-${theme}`;
+          if (hasFontsLoaded) {
+            document.body.classList.add("fonts-loaded");
+          }
           updateButtons(theme);
 
           // 3. Fade content back in (triggers new CSS animations on children)
-          // Small delay to ensure DOM update and style recalculation
+          // Re-query container to ensure we have fresh reference
+          const containerAfter = document.querySelector(".container");
+
+          // Force a reflow to ensure theme styles are applied
+          void containerAfter.offsetWidth;
+
+          // Remove fading-out class to trigger fade-in
+          containerAfter.classList.remove("fading-out");
+
+          // Ensure container is visible - clear any inline opacity that might interfere
+          containerAfter.style.opacity = "";
+
+          // Double-check visibility after transition completes and force visibility if needed
           setTimeout(() => {
-            container.classList.remove("fading-out");
-          }, 50);
+            const computedOpacity = window.getComputedStyle(containerAfter).opacity;
+            const opacityValue = parseFloat(computedOpacity);
+
+            // If opacity is 0 or very low, force it to 1
+            if (isNaN(opacityValue) || opacityValue < 0.1) {
+              containerAfter.style.opacity = "1";
+              containerAfter.classList.remove("fading-out"); // Ensure class is removed
+            }
+          }, 350);
         }, 300);
       }
 

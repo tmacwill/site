@@ -19,19 +19,14 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
-
-      - name: Delete existing S3 bucket contents
-        run: |
-          aws s3 rm s3://tommymacwilliam.com --recursive
-          aws s3 rm s3://blankspacelabs.com --recursive
+          aws-region: us-west-2
 
       - name: Deploy to S3
         run: |
           aws s3 sync . s3://tommymacwilliam.com --delete --exclude ".git/*" --exclude ".github/*"
           aws s3 sync . s3://blankspacelabs.com --delete --exclude ".git/*" --exclude ".github/*"
 
-      - name: Invalidate CloudFront cache for tommymacwilliam.com
+      - name: Invalidate CloudFront cache
         run: |
           aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_TOMMYMACWILLIAM_COM }} --paths "/*"
           aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID_WWW_TOMMYMACWILLIAM_COM }} --paths "/*"
